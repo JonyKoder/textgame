@@ -12,10 +12,9 @@ type Item struct {
 }
 
 type Location struct {
-	Name     string
-	State    string
-	Items    []Item
-	Entities []Entity
+	Name  string
+	State string
+	Items []Item
 }
 
 type Entity interface {
@@ -33,8 +32,7 @@ type GameState struct {
 	Player    Player
 }
 
-// HandleCommand processes player commands
-func (gameState *GameState) handleCommand(command string, args []string) {
+func (gameState *GameState) HandleCommand(command string, args []string) {
 	switch command {
 	case "осмотреться":
 		gameState.DescribeLocation()
@@ -55,7 +53,6 @@ func (gameState *GameState) handleCommand(command string, args []string) {
 	}
 }
 
-// DescribeLocation displays description of current location
 func (gameState *GameState) DescribeLocation() {
 	location, exists := gameState.Locations[gameState.Player.Location]
 	if !exists {
@@ -70,7 +67,6 @@ func (gameState *GameState) DescribeLocation() {
 	}
 }
 
-// ChangeLocation moves player to a new location
 func (gameState *GameState) ChangeLocation(newLocation string) {
 	_, exists := gameState.Locations[newLocation]
 	if !exists {
@@ -81,7 +77,6 @@ func (gameState *GameState) ChangeLocation(newLocation string) {
 	fmt.Println("Перемещение в", newLocation)
 }
 
-// TakeItem allows player to pick up an item from the location
 func (gameState *GameState) TakeItem(itemName string) {
 	location, exists := gameState.Locations[gameState.Player.Location]
 	if !exists {
@@ -124,6 +119,6 @@ func main() {
 		command := parts[0]
 		args := parts[1:]
 
-		gameState.handleCommand(command, args)
+		gameState.HandleCommand(command, args)
 	}
 }
